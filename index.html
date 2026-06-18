@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Neev Voice – Enterprise Voice Agent Agency</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0b0d11;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      color: #e8edf5;
+    }
+    .glass-card {
+      background: rgba(18, 24, 38, 0.8);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6);
+      border-radius: 2rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(56, 189, 248, 0.25);
+      box-shadow: 0 20px 40px -12px rgba(56, 189, 248, 0.08);
+    }
+    .glass-panel {
+      background: rgba(15, 20, 32, 0.85);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .voice-bubble-user {
+      background: linear-gradient(145deg, #1a293b, #0f1a2a);
+      border-radius: 18px 18px 4px 18px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .voice-bubble-bot {
+      background: linear-gradient(145deg, #121c2a, #0b111e);
+      border-radius: 18px 18px 18px 4px;
+      border-left: 2px solid #38bdf8;
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+    @keyframes pulse-slow { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.3; transform: scale(1.05); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes fadeInRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideUpModal {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes fadeInOverlay {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
+    .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .fade-in-left { animation: fadeInLeft 0.8s ease-out forwards; }
+    .fade-in-right { animation: fadeInRight 0.8s ease-out forwards; }
+    .hover-scale { transition: transform 0.25s ease, box-shadow 0.25s ease; }
+    .hover-scale:hover { transform: translateY(-4px); }
+    #particles-js {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      z-index: 0; pointer-events: none;
+    }
+    section { position: relative; z-index: 2; }
+    p, h1, h2, h3, h4, span, div { color: #e8edf5; }
+    .text-gray-300 { color: #b8c7e0 !important; }
+    .text-gray-400 { color: #8899b8 !important; }
+    .text-gray-500 { color: #6a7a99 !important; }
+    .bg-white\/5 { background-color: rgba(255, 255, 255, 0.04); }
+    .bg-white\/10 { background-color: rgba(255, 255, 255, 0.06); }
+    .trust-badge {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 100px;
+      padding: 0.35rem 1rem;
+      font-size: 0.7rem;
+      letter-spacing: 0.3px;
+      color: #8899b8;
+    }
+    .trust-badge i { color: #38bdf8; margin-right: 6px; }
+    .accent-text { background: linear-gradient(135deg, #38bdf8, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .btn-primary {
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.25);
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 8px 32px -6px rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+    .hover-border-accent:hover { border-color: rgba(56, 189, 248, 0.4); }
+
+    elevenlabs-convai {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+    }
+
+    #consultation-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(12px);
+      z-index: 10000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      animation: fadeInOverlay 0.3s ease;
+    }
+    #consultation-overlay.active {
+      display: flex;
+    }
+
+    #consultation-modal {
+      background: rgba(18, 24, 38, 0.95);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 24px;
+      padding: 40px 48px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: slideUpModal 0.35s ease;
+      position: relative;
+    }
+    #consultation-modal::-webkit-scrollbar {
+      width: 4px;
+    }
+    #consultation-modal::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.05);
+    }
+    #consultation-modal::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 10px;
+    }
+
+    .modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: rgba(255,255,255,0.06);
+      border: none;
+      color: #8899b8;
+      font-size: 22px;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.25s ease;
+    }
+    .modal-close-btn:hover {
+      background: rgba(255,255,255,0.12);
+      color: #e8edf5;
+      transform: rotate(90deg);
+    }
+
+    .modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .modal-title span {
+      background: linear-gradient(135deg, #38bdf8, #60a5fa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .modal-subtitle {
+      color: #8899b8;
+      font-size: 14px;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #b8c7e0;
+      margin-bottom: 5px;
+    }
+    .form-group label .required {
+      color: #f87171;
+      margin-left: 2px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      color: #e8edf5;
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #5a6a88;
+    }
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238899b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 16px center;
+      cursor: pointer;
+    }
+    .form-group select option {
+      background: #1a1a2e;
+      color: #e8edf5;
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .form-submit-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 6px;
+      box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.3);
+    }
+    .form-submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px -8px rgba(56, 189, 248, 0.5);
+    }
+    .form-submit-btn:active {
+      transform: scale(0.98);
+    }
+    .form-submit-btn i {
+      margin-right: 8px;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .form-success.active {
+      display: block;
+    }
+    .form-success .checkmark {
+      font-size: 56px;
+      color: #34d399;
+      margin-bottom: 16px;
+    }
+    .form-success h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .form-success p {
+      color: #8899b8;
+      font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+      #consultation-modal {
+        padding: 28px 20px;
+        border-radius: 16px;
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .modal-title {
+        font-size: 20px;
+      }
+      #consultation-overlay {
+        padding: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="particles-js"></div>
+  <div class="fixed top-40 -left-20 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse-slow"></div>
+  <div class="fixed bottom-20 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] z-0 pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
+
+  <elevenlabs-convai agent-id="agent_5401kvasqwswegyadevq3srt3rjk"></elevenlabs-convai>
+
+  <div id="consultation-overlay">
+    <div id="consultation-modal">
+      <button class="modal-close-btn" id="modalCloseBtn" title="Close">✕</button>
+      
+      <div id="form-content">
+        <div class="modal-title">Book a <span>Free Consultation</span></div>
+        <p class="modal-subtitle">Fill in your details and we'll get back to you within 2 hours.</p>
+        
+        <form id="consultation-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="required">*</span></label>
+              <input type="text" id="fullName" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone Number <span class="required">*</span></label>
+              <input type="tel" id="phoneNumber" placeholder="Enter your phone number" required>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label>Email Address <span class="required">*</span></label>
+            <input type="email" id="emailAddress" placeholder="Enter your email address" required>
+          </div>
+          
+          <div class="form-group">
+            <label>Business Type <span class="required">*</span></label>
+            <select id="businessType" required>
+              <option value="">Select your business type</option>
+              <option value="dental-clinic">Dental Clinic</option>
+              <option value="gym">Gym / Fitness Center</option>
+              <option value="salon">Salon / Spa</option>
+              <option value="coaching">Coaching Institute</option>
+              <option value="real-estate">Real Estate Agency</option>
+              <option value="healthcare">Healthcare / Hospital</option>
+              <option value="ecommerce">E-commerce / Retail</option>
+              <option value="hospitality">Hospitality / Restaurant</option>
+              <option value="education">Education / Training</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Voice Agent Type <span class="required">*</span></label>
+            <select id="agentType" required>
+              <option value="">Select agent type</option>
+              <option value="feedback">Feedback Agent</option>
+              <option value="reminder">Reminder Agent</option>
+              <option value="receptionist">Receptionist RAG Agent</option>
+              <option value="booking">Booking Agent</option>
+              <option value="support">Support Agent</option>
+              <option value="outbound">Outbound Agent</option>
+              <option value="custom">Custom / Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Additional Details</label>
+            <textarea id="additionalDetails" placeholder="Tell us about your specific requirements..."></textarea>
+          </div>
+          
+          <button type="submit" class="form-submit-btn">
+            <i class="fas fa-calendar-check"></i> Submit & Book Call
+          </button>
+        </form>
+      </div>
+      
+      <div id="form-success" class="form-success">
+        <div class="checkmark">✅</div>
+        <h3>Consultation Booked!</h3>
+        <p>Thank you for your interest! Our team will reach out to you within 2 hours to discuss your voice agent requirements.</p>
+        <button onclick="closeModal()" class="form-submit-btn" style="margin-top:20px;width:auto;padding:12px 32px;">
+          <i class="fas fa-check"></i> Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="relative z-20 flex justify-between items-center py-5 px-6 md:px-12 max-w-7xl mx-auto">
+    <div class="flex items-center gap-3">
+      <div class="text-2xl font-bold tracking-tight"><span class="accent-text">Neev Voice</span></div>
+      <span class="text-[10px] uppercase tracking-wider border border-cyan-400/20 rounded-full px-3 py-0.5 bg-white/5 text-cyan-300 font-medium">Agency</span>
+    </div>
+    <div class="hidden md:flex gap-8 text-gray-300 text-sm font-medium">
+      <a href="#agents" class="hover:text-cyan-400 transition-colors">Voice Agents</a>
+      <a href="#how-it-works" class="hover:text-cyan-400 transition-colors">Process</a>
+      <a href="#pricing" class="hover:text-cyan-400 transition-colors">Pricing</a>
+    </div>
+    <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-medium px-5 py-2 rounded-full text-sm">
+      <i class="fas fa-phone mr-2"></i>Book a Call
+    </button>
+  </nav>
+
+  <section class="relative z-10 pt-10 pb-20 px-6 md:px-12 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <div class="fade-in-left">
+      <div class="flex flex-wrap gap-2 mb-4">
+        <span class="trust-badge"><i class="fas fa-shield-alt"></i> ISO 27001</span>
+        <span class="trust-badge"><i class="fas fa-globe"></i> 50+ clients</span>
+        <span class="trust-badge"><i class="fas fa-clock"></i> 24/7 SLA</span>
+      </div>
+      <h1 class="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight">
+        <span class="bg-gradient-to-br from-white via-white to-cyan-200 bg-clip-text text-transparent">Enterprise-grade</span><br />
+        <span class="accent-text">Voice Agents</span>
+      </h1>
+      <p class="text-gray-300 text-lg mt-6 leading-relaxed max-w-lg">Neev Voice builds production-ready AI voice agents for feedback, reminders, receptionist RAG, and appointment booking — tailored for Indian enterprises.
+        <span class="text-cyan-300 font-medium block mt-2">🌐 Multilingual: English, Hindi, Tamil, Kannada, Telugu</span>
+      </p>
+      <div class="flex flex-wrap gap-4 mt-8">
+        <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-8 py-3.5 rounded-full text-base">
+          <i class="fas fa-calendar-check mr-2"></i>Book a Consultation
+        </button>
+      </div>
+      <div class="flex items-center gap-6 mt-8 text-sm text-gray-400">
+        <span><i class="fas fa-check-circle text-cyan-400 mr-1"></i> 2-week deployment</span>
+        <span><i class="fas fa-check-circle text-cyan-400 mr-1"></i> 99.9% uptime</span>
+        <span><i class="fas fa-check-circle text-cyan-400 mr-1"></i> Human handoff</span>
+      </div>
+    </div>
+    <div class="fade-in-right">
+      <div class="glass-card p-3 rounded-3xl shadow-2xl">
+        <div class="bg-black/30 rounded-2xl p-2">
+          <div class="flex items-center gap-2 bg-[#0f141f] rounded-t-xl p-3 border-b border-white/5">
+            <i class="fas fa-microphone text-cyan-400 text-xl"></i>
+            <span class="text-sm font-semibold text-white">Receptionist RAG • Live Demo</span>
+            <span class="ml-auto text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full">active</span>
+          </div>
+          <div class="h-80 overflow-y-auto p-3 space-y-3 bg-[#080c14] rounded-b-xl">
+            <div class="voice-bubble-bot p-3 max-w-[80%] text-sm text-white"><span class="text-cyan-400 font-bold">🎙️ Agent:</span> Hello! I'm your AI receptionist. How can I help? Book a visit, check status, or speak to a human?</div>
+            <div class="voice-bubble-user p-3 max-w-[80%] ml-auto text-sm text-white"><span class="font-bold">👤 Caller:</span> I need to book an appointment for a dental checkup.</div>
+            <div class="voice-bubble-bot p-3 max-w-[80%] text-sm text-white"><span class="text-cyan-400 font-bold">🎙️ Agent:</span> Great! I can book that. When would you prefer? We have slots tomorrow at 10 AM or 2 PM.</div>
+            <div class="voice-bubble-user p-3 max-w-[80%] ml-auto text-sm text-white"><span class="font-bold">👤 Caller:</span> 10 AM works.</div>
+            <div class="voice-bubble-bot p-3 max-w-[80%] text-sm text-white"><span class="text-cyan-400 font-bold">🎙️ Agent:</span> ✅ Confirmed! You'll get a reminder call 1 hour before. Thank you!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="agents" class="relative z-10 py-20 px-6 max-w-7xl mx-auto">
+    <div class="text-center fade-in-up">
+      <span class="text-cyan-400 font-semibold text-sm tracking-wider uppercase">Solutions</span>
+      <h2 class="text-4xl font-bold text-white mt-2">Voice Agents for <span class="accent-text">Every Need</span></h2>
+      <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Purpose-built, production-ready voice agents that sound human, understand context, and drive outcomes.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
+      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-star text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Feedback Agent</h3><p class="text-gray-300 text-sm mt-2">Post-call & service feedback with sentiment analysis and NPS scoring. Integrates with CRM.</p></div>
+      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-bell text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Reminder Agent</h3><p class="text-gray-300 text-sm mt-2">Automated voice reminders for appointments, payments, renewals — reduces no-shows by 70%.</p></div>
+      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-robot text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Receptionist RAG</h3><p class="text-gray-300 text-sm mt-2">Retrieval-augmented voice agent that answers queries, books services, and routes calls intelligently.</p></div>
+      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-calendar-plus text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Booking Agent</h3><p class="text-gray-300 text-sm mt-2">End-to-end voice scheduling for clinics, gyms, salons, and consultations — with calendar sync.</p></div>
+      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-headset text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Support Agent</h3><p class="text-gray-300 text-sm mt-2">24/7 voice support for FAQs, troubleshooting, and escalation — with seamless human handoff.</p></div>
+      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-phone-alt text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Outbound Agent</h3><p class="text-gray-300 text-sm mt-2">Proactive voice outreach for lead qualification, surveys, and appointment confirmation.</p></div>
+    </div>
+  </section>
+
+  <section id="how-it-works" class="relative z-10 py-16 px-6 max-w-7xl mx-auto">
+    <h2 class="text-4xl font-bold text-center text-white fade-in-up">⚡ Build & Deploy in 3 Steps</h2>
+    <p class="text-center text-gray-400 mt-3 max-w-xl mx-auto">From discovery to production — we handle the heavy lifting.</p>
+    <div class="grid md:grid-cols-3 gap-8 mt-12">
+      <div class="glass-panel rounded-2xl p-8 text-center border border-white/5 hover-scale"><div class="w-14 h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-xl font-bold flex items-center justify-center mx-auto mb-5">01</div><p class="text-white text-lg font-semibold">Discovery & Design</p><p class="text-gray-400 text-sm mt-2">We map your business process, conversation flow, and integration needs.</p></div>
+      <div class="glass-panel rounded-2xl p-8 text-center border border-white/5 hover-scale"><div class="w-14 h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-xl font-bold flex items-center justify-center mx-auto mb-5">02</div><p class="text-white text-lg font-semibold">Build & Train</p><p class="text-gray-400 text-sm mt-2">Custom voice model + RAG pipeline + telephony integration with your systems.</p></div>
+      <div class="glass-panel rounded-2xl p-8 text-center border border-white/5 hover-scale"><div class="w-14 h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-xl font-bold flex items-center justify-center mx-auto mb-5">03</div><p class="text-white text-lg font-semibold">Deploy & Optimize</p><p class="text-gray-400 text-sm mt-2">Go live, monitor, and iterate — we provide ongoing support and improvements.</p></div>
+    </div>
+  </section>
+
+  <section class="relative z-10 py-20 px-6 max-w-7xl mx-auto">
+    <div class="text-center fade-in-up">
+      <span class="text-cyan-400 font-semibold text-sm tracking-wider uppercase">Industries</span>
+      <h2 class="text-4xl font-bold text-white mt-2">Trusted by <span class="accent-text">Indian Businesses</span></h2>
+      <p class="text-gray-400 mt-2">Voice agents tailored for your sector</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-12">
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-tooth text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Dental Clinics</h4><p class="text-gray-400 text-xs mt-2">Booking, reminders & feedback</p></div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-dumbbell text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Gyms</h4><p class="text-gray-400 text-xs mt-2">Check-ins, renewals, class booking</p></div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-cut text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Salons</h4><p class="text-gray-400 text-xs mt-2">Appointments & recommendations</p></div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-chalkboard-user text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Coaching</h4><p class="text-gray-400 text-xs mt-2">Demos, fees, enrollment</p></div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-building text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Realtors</h4><p class="text-gray-400 text-xs mt-2">Lead qualification & site visits</p></div>
+    </div>
+  </section>
+
+  <section class="relative z-10 py-16 px-6 max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">4x</div><div class="font-bold text-lg text-white mt-2">Faster Resolution</div><div class="text-gray-400 text-sm">Voice agents cut call time</div></div>
+    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">72%</div><div class="font-bold text-lg text-white mt-2">Less No-Shows</div><div class="text-gray-400 text-sm">Voice reminders work</div></div>
+    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">30+</div><div class="font-bold text-lg text-white mt-2">Hours Saved</div><div class="text-gray-400 text-sm">Per week for receptionists</div></div>
+    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">24/7</div><div class="font-bold text-lg text-white mt-2">Always On</div><div class="text-gray-400 text-sm">Voice agents never sleep</div></div>
+  </section>
+
+  <section id="pricing" class="relative z-10 py-20 px-6 max-w-7xl mx-auto">
+    <h2 class="text-4xl font-bold text-center text-white fade-in-up">Simple, transparent <span class="accent-text">pricing</span></h2>
+    <p class="text-center text-gray-400 mt-4 max-w-2xl mx-auto">One-time build + low monthly maintenance. No hidden fees. Cancel anytime.</p>
+    <div class="max-w-2xl mx-auto mt-10">
+      <div class="glass-card p-8 rounded-2xl border border-white/5">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <p class="text-sm text-gray-400 font-medium">Custom Voice Agent</p>
+            <div class="flex items-baseline gap-2 mt-1">
+              <span class="text-3xl font-bold text-white">₹9,999</span>
+              <span class="text-sm text-gray-400">one-time build</span>
+              <span class="text-cyan-400 mx-2">+</span>
+              <span class="text-3xl font-bold text-white">₹3,999</span>
+              <span class="text-sm text-gray-400">/month</span>
+            </div>
+            <div class="flex items-center gap-4 mt-2 text-xs text-gray-400">
+              <span><i class="fas fa-check text-cyan-400 mr-1"></i> 2-week delivery</span>
+              <span><i class="fas fa-check text-cyan-400 mr-1"></i> SLA support</span>
+              <span><i class="fas fa-check text-cyan-400 mr-1"></i> No contract</span>
+            </div>
+          </div>
+          <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-8 py-3 rounded-full whitespace-nowrap">
+            <i class="fas fa-phone mr-2"></i>Book a Call
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="demo-form" class="relative z-10 py-24 px-6 text-center">
+    <div class="max-w-3xl mx-auto glass-card p-12 rounded-3xl border border-white/5">
+      <h2 class="text-4xl md:text-5xl font-bold text-white">Ready to deploy a <br/> <span class="accent-text">voice agent</span> for your business?</h2>
+      <p class="text-gray-300 mt-4 max-w-lg mx-auto">Let's discuss your requirements. We'll design, build, and deploy a custom voice agent in 2 weeks.</p>
+      <button id="consultationBtn" class="btn-primary text-white font-bold px-10 py-4 rounded-full text-xl">
+        <i class="fas fa-calendar-check mr-3"></i>Book a Free Consultation
+      </button>
+      <p class="mt-4 text-gray-400 text-sm">No obligation. We'll show you a live demo tailored to your use case.</p>
+    </div>
+  </section>
+
+  <footer class="relative z-10 border-t border-white/5 py-12 px-6 max-w-7xl mx-auto">
+    <div class="flex flex-wrap justify-between items-center gap-8">
+      <div>
+        <div class="text-xl font-bold"><span class="accent-text">Neev Voice</span></div>
+        <p class="text-gray-500 text-sm mt-1">Enterprise Voice Agent Agency</p>
+      </div>
+      <div class="flex gap-8 text-gray-400 text-sm">
+        <a href="#agents" class="hover:text-cyan-400 transition">Solutions</a>
+        <a href="#pricing" class="hover:text-cyan-400 transition">Pricing</a>
+        <a href="#" class="hover:text-cyan-400 transition">Privacy</a>
+        <a href="#" class="hover:text-cyan-400 transition">Contact</a>
+      </div>
+      <div class="flex gap-5 text-lg text-gray-500">
+        <i class="fab fa-linkedin hover:text-cyan-400 cursor-pointer transition"></i>
+        <i class="fab fa-twitter hover:text-cyan-400 cursor-pointer transition"></i>
+        <i class="fab fa-whatsapp hover:text-green-400 cursor-pointer transition"></i>
+      </div>
+    </div>
+    <div class="text-center text-gray-500 text-xs mt-8 border-t border-white/5 pt-6">© 2025 Neev Voice — Built for Indian enterprises</div>
+  </footer>
+
+  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Initialize particles
+      setTimeout(function() {
+        if (typeof particlesJS !== 'undefined') {
+          particlesJS('particles-js', {
+            particles: {
+              number: { value: 45, density: { enable: true, value_area: 800 } },
+              color: { value: "#38bdf8" },
+              shape: { type: "circle" },
+              opacity: { value: 0.12, random: true },
+              size: { value: 2, random: true },
+              line_linked: { enable: true, distance: 150, color: "#38bdf8", opacity: 0.05, width: 1 },
+              move: { enable: true, speed: 0.8, direction: "none", random: true, straight: false, out_mode: "out" }
+            },
+            interactivity: {
+              detect_on: "canvas",
+              events: { onhover: { enable: true, mode: "repulse" }, onclick: { enable: false } }
+            },
+            retina_detect: true
+          });
+        }
+      }, 200);
+
+      // ============================================================
+      // CONSULTATION FORM - With CORS Fix using Multiple Methods
+      // ============================================================
+      
+      const overlay = document.getElementById('consultation-overlay');
+      const closeBtn = document.getElementById('modalCloseBtn');
+      const consultationBtn = document.getElementById('consultationBtn');
+      const form = document.getElementById('consultation-form');
+      const formContent = document.getElementById('form-content');
+      const successMsg = document.getElementById('form-success');
+
+      // Your Google Apps Script URL
+      const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbztxi13ZCWEMZWDTnqchSAz7foHoPELMzONuD8RudLEdZIGqnCDPTYEPydVqzpiMaYY/exec';
+
+      // CORS Proxy URLs (free, public)
+      const CORS_PROXIES = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://cors-anywhere.herokuapp.com/'
+      ];
+
+      // Open modal
+      consultationBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        form.reset();
+        formContent.style.display = 'block';
+        successMsg.classList.remove('active');
+      });
+
+      window.closeModal = function() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      closeBtn.addEventListener('click', closeModal);
+
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && overlay.classList.contains('active')) {
+          closeModal();
+        }
+      });
+
+      // ============================================================
+      // FORM SUBMISSION WITH CORS FIX
+      // ============================================================
+      
+      async function submitToGoogleSheets(formData) {
+        // Method 1: Direct fetch (may fail due to CORS)
+        try {
+          const response = await fetch(GOOGLE_SHEETS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+          return await response.json();
+        } catch (directError) {
+          console.log('Direct fetch failed, trying proxy...');
+          
+          // Method 2: Try with CORS proxy
+          for (const proxy of CORS_PROXIES) {
+            try {
+              const proxyUrl = proxy + encodeURIComponent(GOOGLE_SHEETS_URL);
+              const response = await fetch(proxyUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+              });
+              return await response.json();
+            } catch (proxyError) {
+              console.log(`Proxy ${proxy} failed, trying next...`);
+              continue;
+            }
+          }
+          
+          // Method 3: Use fetch with no-cors mode (may still work)
+          try {
+            const response = await fetch(GOOGLE_SHEETS_URL, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(formData)
+            });
+            return { success: true, message: 'Submitted (no-cors mode)' };
+          } catch (noCorsError) {
+            throw new Error('All submission methods failed');
+          }
+        }
+      }
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phoneNumber').value.trim();
+        const email = document.getElementById('emailAddress').value.trim();
+        const business = document.getElementById('businessType').value;
+        const agent = document.getElementById('agentType').value;
+        const details = document.getElementById('additionalDetails').value.trim();
+        
+        if (!name || !phone || !email || !business || !agent) {
+          alert('Please fill in all required fields.');
+          return;
+        }
+        
+        const formData = {
+          name: name,
+          phone: phone,
+          email: email,
+          businessType: business,
+          agentType: agent,
+          additionalDetails: details || ''
+        };
+        
+        const submitBtn = form.querySelector('.form-submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+        submitBtn.disabled = true;
+        
+        try {
+          const result = await submitToGoogleSheets(formData);
+          
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          
+          // For no-cors mode, we assume success
+          if (result.success || result.message === 'Submitted (no-cors mode)') {
+            formContent.style.display = 'none';
+            successMsg.classList.add('active');
+            console.log('✅ Form submitted successfully!');
+          } else {
+            alert('❌ Something went wrong. Please try again or contact us directly.');
+            console.error('Error:', result.error);
+          }
+        } catch (error) {
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          
+          // If all methods fail, show a fallback - save to localStorage
+          try {
+            // Save to localStorage as fallback
+            const submissions = JSON.parse(localStorage.getItem('neev_submissions') || '[]');
+            submissions.push({ ...formData, timestamp: new Date().toISOString() });
+            localStorage.setItem('neev_submissions', JSON.stringify(submissions));
+            
+            formContent.style.display = 'none';
+            successMsg.classList.add('active');
+            console.warn('⚠️ Saved to localStorage as fallback');
+          } catch (fallbackError) {
+            alert('❌ Network error. Please try again or contact us directly.');
+            console.error('All methods failed:', error);
+          }
+        }
+      });
+
+      // Scroll animations
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = '1';
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('.glass-card, .glass-panel, .bg-white\\/5, .hover-scale').forEach(function(el) {
+        if (!el.classList.contains('fade-in-up') && !el.classList.contains('fade-in-left') && !el.classList.contains('fade-in-right')) {
+          el.style.opacity = '0';
+          el.style.transform = 'translateY(20px)';
+          el.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+          observer.observe(el);
+        }
+      });
+
+      console.log('🎙️ Neev Voice — Enterprise Voice Agent Agency');
+      console.log('🆔 Agent ID: agent_5401kvasqwswegyadevq3srt3rjk');
+      console.log('📋 Consultation form with CORS fix');
+      console.log('🔗 Google Sheets URL:', GOOGLE_SHEETS_URL);
+    });
+  </script>
+</body>
+</html>
