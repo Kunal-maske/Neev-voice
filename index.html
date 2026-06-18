@@ -64,10 +64,6 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35); }
-      50% { box-shadow: 0 10px 50px rgba(56, 189, 248, 0.6); }
-    }
     .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
     .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
     .fade-in-left { animation: fadeInLeft 0.8s ease-out forwards; }
@@ -121,13 +117,6 @@
       transform: scale(0.97);
     }
     .hover-border-accent:hover { border-color: rgba(56, 189, 248, 0.4); }
-
-    elevenlabs-convai {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
-    }
 
     /* ============================================================
        CONSULTATION FORM MODAL
@@ -338,294 +327,87 @@
     }
 
     /* ============================================================
+       ELEVENLABS WIDGET - FLOATING BOTTOM RIGHT (SIMPLE, NO CUSTOMIZATION)
+       ============================================================ */
+    .elevenlabs-widget-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+    }
+
+    @media (max-width: 480px) {
+      .elevenlabs-widget-container {
+        bottom: 16px;
+        right: 16px;
+      }
+    }
+
+    /* ============================================================
        RESPONSIVE STYLES
        ============================================================ */
     
-    /* Mobile First - Extra small devices */
     @media (max-width: 480px) {
-      /* Navigation */
-      nav {
-        padding: 12px 16px !important;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      nav .text-2xl {
-        font-size: 20px !important;
-      }
-      nav .hidden.md\\:flex {
-        display: none !important;
-      }
-      nav .btn-primary {
-        padding: 8px 16px !important;
-        font-size: 12px !important;
-        border-radius: 50px !important;
-      }
-      nav .text-\\[10px\\] {
-        font-size: 8px !important;
-        padding: 2px 8px !important;
-      }
-
-      /* Hero Section */
-      section.pt-10 {
-        padding-top: 20px !important;
-      }
-      section.pb-20 {
-        padding-bottom: 40px !important;
-      }
-      h1.text-5xl {
-        font-size: 32px !important;
-        line-height: 1.2 !important;
-      }
-      .text-gray-300.text-lg {
-        font-size: 15px !important;
-        line-height: 1.6 !important;
-      }
-      
-      /* Hero Buttons - BIGGER for mobile */
-      .hero-buttons {
-        flex-direction: column !important;
-        width: 100% !important;
-        gap: 10px !important;
-      }
-      .hero-buttons .btn-primary,
-      .hero-buttons button {
-        width: 100% !important;
-        padding: 16px 20px !important;
-        font-size: 16px !important;
-        border-radius: 14px !important;
-        justify-content: center !important;
-        min-height: 56px !important;
-      }
-      .hero-buttons .border {
-        padding: 16px 20px !important;
-        font-size: 16px !important;
-        border-radius: 14px !important;
-        min-height: 56px !important;
-        justify-content: center !important;
-      }
-
-      /* Trust Badges */
-      .flex-wrap.gap-2.mb-4 {
-        gap: 6px !important;
-      }
-      .trust-badge {
-        font-size: 10px !important;
-        padding: 4px 10px !important;
-      }
-
-      /* Feature Cards */
-      .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
-        grid-template-columns: 1fr !important;
-        gap: 12px !important;
-      }
-      .glass-card.p-6 {
-        padding: 16px !important;
-        border-radius: 16px !important;
-      }
-      .glass-card.p-6 h3 {
-        font-size: 17px !important;
-      }
-      .glass-card.p-6 p {
-        font-size: 13px !important;
-      }
-
-      /* Stats */
-      .grid-cols-2.md\\:grid-cols-4 {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-      }
-      .bg-white\\/5.p-6 {
-        padding: 16px !important;
-        border-radius: 16px !important;
-      }
-      .text-4xl.font-black {
-        font-size: 28px !important;
-      }
-      .font-bold.text-lg {
-        font-size: 15px !important;
-      }
-      .text-gray-400.text-sm {
-        font-size: 12px !important;
-      }
-
-      /* Industries */
-      .grid.sm\\:grid-cols-2.lg\\:grid-cols-5 {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 10px !important;
-      }
-      .rounded-xl.p-5 {
-        padding: 12px !important;
-      }
-      .text-3xl {
-        font-size: 24px !important;
-      }
-      .font-bold.text-lg {
-        font-size: 14px !important;
-      }
-
-      /* Pricing */
-      .glass-card.p-8 {
-        padding: 20px !important;
-        border-radius: 16px !important;
-      }
-      .flex-col.md\\:flex-row {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 16px !important;
-      }
-      .text-3xl.font-bold {
-        font-size: 26px !important;
-      }
-      .btn-primary.px-8.py-3 {
-        padding: 14px 24px !important;
-        font-size: 15px !important;
-        width: 100% !important;
-        justify-content: center !important;
-        border-radius: 12px !important;
-      }
-
-      /* CTA Section */
-      .glass-card.p-12 {
-        padding: 24px 20px !important;
-        border-radius: 20px !important;
-      }
-      .text-4xl.md\\:text-5xl {
-        font-size: 28px !important;
-        line-height: 1.3 !important;
-      }
-      .btn-primary.px-10.py-4 {
-        padding: 16px 24px !important;
-        font-size: 16px !important;
-        width: 100% !important;
-        justify-content: center !important;
-        border-radius: 14px !important;
-        min-height: 56px !important;
-      }
-
-      /* Modal */
-      #consultation-modal {
-        padding: 24px 18px !important;
-        border-radius: 18px !important;
-        max-height: 95vh !important;
-      }
-      .modal-title {
-        font-size: 20px !important;
-      }
-      .form-row {
-        grid-template-columns: 1fr !important;
-        gap: 0 !important;
-      }
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        padding: 14px !important;
-        font-size: 16px !important;
-      }
-      .form-submit-btn {
-        padding: 16px !important;
-        font-size: 17px !important;
-        border-radius: 14px !important;
-        min-height: 56px !important;
-      }
-
-      /* Footer */
-      footer .flex-wrap {
-        flex-direction: column !important;
-        align-items: center !important;
-        gap: 16px !important;
-        text-align: center !important;
-      }
-      footer .gap-8 {
-        gap: 16px !important;
-        flex-wrap: wrap !important;
-        justify-content: center !important;
-      }
-
-      /* ElevenLabs Widget */
-      elevenlabs-convai {
-        bottom: 16px !important;
-        right: 16px !important;
-      }
-      
-      /* How It Works */
-      .grid.md\\:grid-cols-3 {
-        grid-template-columns: 1fr !important;
-        gap: 14px !important;
-      }
-      .glass-panel.p-8 {
-        padding: 20px !important;
-      }
-
-      /* Stats icons */
-      .text-4xl.font-black.text-cyan-400 {
-        font-size: 32px !important;
-      }
+      nav { padding: 12px 16px !important; flex-wrap: wrap; gap: 8px; }
+      nav .text-2xl { font-size: 20px !important; }
+      nav .hidden.md\:flex { display: none !important; }
+      nav .btn-primary { padding: 8px 16px !important; font-size: 12px !important; border-radius: 50px !important; }
+      nav .text-\[10px\] { font-size: 8px !important; padding: 2px 8px !important; }
+      section.pt-10 { padding-top: 20px !important; }
+      section.pb-20 { padding-bottom: 40px !important; }
+      h1.text-5xl { font-size: 32px !important; line-height: 1.2 !important; }
+      .text-gray-300.text-lg { font-size: 15px !important; line-height: 1.6 !important; }
+      .hero-buttons { flex-direction: column !important; width: 100% !important; gap: 10px !important; }
+      .hero-buttons .btn-primary, .hero-buttons button { width: 100% !important; padding: 16px 20px !important; font-size: 16px !important; border-radius: 14px !important; justify-content: center !important; min-height: 56px !important; }
+      .hero-buttons .border { padding: 16px 20px !important; font-size: 16px !important; border-radius: 14px !important; min-height: 56px !important; justify-content: center !important; }
+      .flex-wrap.gap-2.mb-4 { gap: 6px !important; }
+      .trust-badge { font-size: 10px !important; padding: 4px 10px !important; }
+      .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 12px !important; }
+      .glass-card.p-6 { padding: 16px !important; border-radius: 16px !important; }
+      .glass-card.p-6 h3 { font-size: 17px !important; }
+      .glass-card.p-6 p { font-size: 13px !important; }
+      .grid-cols-2.md\:grid-cols-4 { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+      .bg-white\/5.p-6 { padding: 16px !important; border-radius: 16px !important; }
+      .text-4xl.font-black { font-size: 28px !important; }
+      .font-bold.text-lg { font-size: 15px !important; }
+      .text-gray-400.text-sm { font-size: 12px !important; }
+      .grid.sm\:grid-cols-2.lg\:grid-cols-5 { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+      .rounded-xl.p-5 { padding: 12px !important; }
+      .text-3xl { font-size: 24px !important; }
+      .font-bold.text-lg { font-size: 14px !important; }
+      .glass-card.p-8 { padding: 20px !important; border-radius: 16px !important; }
+      .flex-col.md\:flex-row { flex-direction: column !important; align-items: stretch !important; gap: 16px !important; }
+      .text-3xl.font-bold { font-size: 26px !important; }
+      .btn-primary.px-8.py-3 { padding: 14px 24px !important; font-size: 15px !important; width: 100% !important; justify-content: center !important; border-radius: 12px !important; }
+      .glass-card.p-12 { padding: 24px 20px !important; border-radius: 20px !important; }
+      .text-4xl.md\:text-5xl { font-size: 28px !important; line-height: 1.3 !important; }
+      .btn-primary.px-10.py-4 { padding: 16px 24px !important; font-size: 16px !important; width: 100% !important; justify-content: center !important; border-radius: 14px !important; min-height: 56px !important; }
+      #consultation-modal { padding: 24px 18px !important; border-radius: 18px !important; max-height: 95vh !important; }
+      .modal-title { font-size: 20px !important; }
+      .form-row { grid-template-columns: 1fr !important; gap: 0 !important; }
+      .form-group input, .form-group select, .form-group textarea { padding: 14px !important; font-size: 16px !important; }
+      .form-submit-btn { padding: 16px !important; font-size: 17px !important; border-radius: 14px !important; min-height: 56px !important; }
+      footer .flex-wrap { flex-direction: column !important; align-items: center !important; gap: 16px !important; text-align: center !important; }
+      footer .gap-8 { gap: 16px !important; flex-wrap: wrap !important; justify-content: center !important; }
+      .grid.md\:grid-cols-3 { grid-template-columns: 1fr !important; gap: 14px !important; }
+      .glass-panel.p-8 { padding: 20px !important; }
+      .text-4xl.font-black.text-cyan-400 { font-size: 32px !important; }
     }
 
-    /* Small devices (481px - 768px) */
     @media (min-width: 481px) and (max-width: 768px) {
-      nav .hidden.md\\:flex {
-        display: none !important;
-      }
-      .hero-buttons {
-        flex-direction: row !important;
-        flex-wrap: wrap !important;
-      }
-      .hero-buttons .btn-primary,
-      .hero-buttons button {
-        flex: 1 !important;
-        min-width: 160px !important;
-        padding: 14px 20px !important;
-        font-size: 15px !important;
-        justify-content: center !important;
-      }
-      .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
-        grid-template-columns: 1fr 1fr !important;
-      }
-      .grid.sm\\:grid-cols-2.lg\\:grid-cols-5 {
-        grid-template-columns: 1fr 1fr 1fr !important;
-      }
-      .flex-col.md\\:flex-row {
-        flex-direction: column !important;
-        align-items: stretch !important;
-        gap: 16px !important;
-      }
-      .btn-primary.px-8.py-3 {
-        width: 100% !important;
-        justify-content: center !important;
-      }
-      #consultation-modal {
-        padding: 28px 24px !important;
-      }
+      nav .hidden.md\:flex { display: none !important; }
+      .hero-buttons { flex-direction: row !important; flex-wrap: wrap !important; }
+      .hero-buttons .btn-primary, .hero-buttons button { flex: 1 !important; min-width: 160px !important; padding: 14px 20px !important; font-size: 15px !important; justify-content: center !important; }
+      .grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-3 { grid-template-columns: 1fr 1fr !important; }
+      .grid.sm\:grid-cols-2.lg\:grid-cols-5 { grid-template-columns: 1fr 1fr 1fr !important; }
+      .flex-col.md\:flex-row { flex-direction: column !important; align-items: stretch !important; gap: 16px !important; }
+      .btn-primary.px-8.py-3 { width: 100% !important; justify-content: center !important; }
+      #consultation-modal { padding: 28px 24px !important; }
     }
 
-    /* Large screens - hover effects only on desktop */
-    @media (hover: hover) {
-      .hover-scale:hover {
-        transform: translateY(-4px);
-      }
-    }
-
-    /* Touch devices - no hover effects on tap */
-    @media (hover: none) {
-      .hover-scale:hover {
-        transform: none !important;
-      }
-      .btn-primary:hover {
-        transform: none !important;
-      }
-      .glass-card:hover {
-        border-color: rgba(255,255,255,0.06) !important;
-        box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6) !important;
-      }
-    }
-
-    /* Prevent zoom on input focus for iOS */
-    @supports (-webkit-touch-callout: none) {
-      input, select, textarea {
-        font-size: 16px !important;
-      }
-    }
+    @media (hover: hover) { .hover-scale:hover { transform: translateY(-4px); } }
+    @media (hover: none) { .hover-scale:hover { transform: none !important; } .btn-primary:hover { transform: none !important; } .glass-card:hover { border-color: rgba(255,255,255,0.06) !important; box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6) !important; } }
+    @supports (-webkit-touch-callout: none) { input, select, textarea { font-size: 16px !important; } }
   </style>
 </head>
 <body>
@@ -634,8 +416,13 @@
   <div class="fixed top-40 -left-20 w-96 h-96 bg-cyan-600/10 rounded-full blur-[120px] z-0 pointer-events-none animate-pulse-slow"></div>
   <div class="fixed bottom-20 right-0 w-80 h-80 bg-blue-500/10 rounded-full blur-[100px] z-0 pointer-events-none animate-pulse-slow" style="animation-delay: 2s;"></div>
 
-  <elevenlabs-convai agent-id="agent_5401kvasqwswegyadevq3srt3rjk"></elevenlabs-convai>
+  <!-- ELEVENLABS CONVAI WIDGET - FLOATING BOTTOM RIGHT (SIMPLE, NO CUSTOMIZATION) -->
+  <div class="elevenlabs-widget-container">
+    <elevenlabs-convai agent-id="agent_9101kvd98sndfwfazhpx6ttb9gmz"></elevenlabs-convai>
+    <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
+  </div>
 
+  <!-- CONSULTATION MODAL -->
   <div id="consultation-overlay">
     <div id="consultation-modal">
       <button class="modal-close-btn" id="modalCloseBtn" title="Close">✕</button>
@@ -748,9 +535,6 @@
       <div class="hero-buttons flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8">
         <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-6 md:px-8 py-3.5 rounded-full text-sm md:text-base shadow-xl shadow-cyan-600/20 transition-all hover:scale-[1.02] flex-1 min-w-[140px]">
           <i class="fas fa-calendar-check mr-2"></i>Book a Consultation
-        </button>
-        <button id="hearDemoBtn" class="border border-white/15 bg-white/5 backdrop-blur-sm px-6 md:px-7 py-3.5 rounded-full font-medium text-white hover:bg-white/10 transition-all flex-1 min-w-[120px] text-sm md:text-base">
-          <i class="fas fa-headphones mr-2"></i>Hear Demo
         </button>
       </div>
       <div class="flex flex-wrap items-center gap-4 md:gap-6 mt-6 md:mt-8 text-xs md:text-sm text-gray-400">
@@ -977,8 +761,6 @@
     <div class="text-center text-gray-500 text-[10px] md:text-xs mt-6 md:mt-8 border-t border-white/5 pt-6">© 2025 Neev Voice — Built for Indian enterprises</div>
   </footer>
 
-  <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
-  
   <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -1006,7 +788,7 @@
       }, 200);
 
       // ============================================================
-      // CONSULTATION FORM
+      // CONSULTATION FORM - Google Sheets Integration
       // ============================================================
       
       const overlay = document.getElementById('consultation-overlay');
@@ -1016,17 +798,8 @@
       const formContent = document.getElementById('form-content');
       const successMsg = document.getElementById('form-success');
 
-      // Your Google Apps Script URL - UPDATE THIS
       const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbztxi13ZCWEMZWDTnqchSAz7foHoPELMzONuD8RudLEdZIGqnCDPTYEPydVqzpiMaYY/exec';
 
-      // CORS Proxies
-      const CORS_PROXIES = [
-        'https://api.allorigins.win/raw?url=',
-        'https://corsproxy.io/?',
-        'https://cors-anywhere.herokuapp.com/'
-      ];
-
-      // Open modal
       consultationBtn.addEventListener('click', function(e) {
         e.preventDefault();
         overlay.classList.add('active');
@@ -1042,62 +815,12 @@
       };
 
       closeBtn.addEventListener('click', closeModal);
-
       overlay.addEventListener('click', function(e) {
-        if (e.target === overlay) {
-          closeModal();
-        }
+        if (e.target === overlay) { closeModal(); }
       });
-
       document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && overlay.classList.contains('active')) {
-          closeModal();
-        }
+        if (e.key === 'Escape' && overlay.classList.contains('active')) { closeModal(); }
       });
-
-      // ============================================================
-      // FORM SUBMISSION
-      // ============================================================
-      
-      async function submitToGoogleSheets(formData) {
-        try {
-          const response = await fetch(GOOGLE_SHEETS_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-          });
-          return await response.json();
-        } catch (directError) {
-          console.log('Direct fetch failed, trying proxy...');
-          
-          for (const proxy of CORS_PROXIES) {
-            try {
-              const proxyUrl = proxy + encodeURIComponent(GOOGLE_SHEETS_URL);
-              const response = await fetch(proxyUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
-              });
-              return await response.json();
-            } catch (proxyError) {
-              console.log(`Proxy failed, trying next...`);
-              continue;
-            }
-          }
-          
-          try {
-            const response = await fetch(GOOGLE_SHEETS_URL, {
-              method: 'POST',
-              mode: 'no-cors',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(formData)
-            });
-            return { success: true, message: 'Submitted (no-cors mode)' };
-          } catch (noCorsError) {
-            throw new Error('All submission methods failed');
-          }
-        }
-      }
 
       form.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -1114,14 +837,7 @@
           return;
         }
         
-        const formData = {
-          name: name,
-          phone: phone,
-          email: email,
-          businessType: business,
-          agentType: agent,
-          additionalDetails: details || ''
-        };
+        const formData = { name, phone, email, businessType: business, agentType: agent, additionalDetails: details || '' };
         
         const submitBtn = form.querySelector('.form-submit-btn');
         const originalText = submitBtn.innerHTML;
@@ -1129,57 +845,32 @@
         submitBtn.disabled = true;
         
         try {
-          const result = await submitToGoogleSheets(formData);
+          const response = await fetch(GOOGLE_SHEETS_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+          });
+          const result = await response.json();
           
           submitBtn.innerHTML = originalText;
           submitBtn.disabled = false;
           
-          if (result.success || result.message === 'Submitted (no-cors mode)') {
+          if (result.success) {
             formContent.style.display = 'none';
             successMsg.classList.add('active');
-            console.log('✅ Form submitted successfully!');
+            console.log('✅ Form submitted to Google Sheets!');
           } else {
             alert('❌ Something went wrong. Please try again or contact us directly.');
-            console.error('Error:', result.error);
           }
         } catch (error) {
           submitBtn.innerHTML = originalText;
           submitBtn.disabled = false;
-          
-          try {
-            const submissions = JSON.parse(localStorage.getItem('neev_submissions') || '[]');
-            submissions.push({ ...formData, timestamp: new Date().toISOString() });
-            localStorage.setItem('neev_submissions', JSON.stringify(submissions));
-            
-            formContent.style.display = 'none';
-            successMsg.classList.add('active');
-            console.warn('⚠️ Saved to localStorage as fallback');
-          } catch (fallbackError) {
-            alert('❌ Network error. Please try again or contact us directly.');
-            console.error('All methods failed:', error);
-          }
+          alert('❌ Network error. Please check your connection and try again.');
+          console.error(error);
         }
       });
 
-      // Hear Demo Button - opens the ElevenLabs widget
-      document.getElementById('hearDemoBtn').addEventListener('click', function() {
-        // Find the ElevenLabs widget and click its button
-        const widget = document.querySelector('elevenlabs-convai');
-        if (widget) {
-          // Try to find the launcher button inside the widget
-          const launcher = widget.shadowRoot?.querySelector('.convai-widget-button') || 
-                           widget.querySelector('.convai-widget-button');
-          if (launcher) {
-            launcher.click();
-          } else {
-            // If we can't find the button, just log
-            console.log('ElevenLabs widget found but launcher not accessible. Click the widget button manually.');
-            alert('🎙️ Click the ElevenLabs widget button in the bottom-right corner to hear the demo.');
-          }
-        } else {
-          alert('🎙️ ElevenLabs widget is loading. Please wait a moment and try again.');
-        }
-      });
+      
 
       // Scroll animations
       const observer = new IntersectionObserver(function(entries) {
@@ -1201,9 +892,11 @@
       });
 
       console.log('🎙️ Neev Voice — Enterprise Voice Agent Agency');
-      console.log('🆔 Agent ID: agent_5401kvasqwswegyadevq3srt3rjk');
       console.log('📱 Fully responsive — optimized for mobile');
+      console.log('📋 Consultation form connected to Google Sheets');
     });
+
+    
   </script>
 </body>
 </html>
