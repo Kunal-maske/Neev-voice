@@ -2,23 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
   <title>Neev Voice – Enterprise Voice Agent Agency</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html {
+      -webkit-text-size-adjust: 100%;
+      -webkit-tap-highlight-color: transparent;
+    }
     body {
       font-family: 'Inter', sans-serif;
       background: #0b0d11;
       scroll-behavior: smooth;
       overflow-x: hidden;
       color: #e8edf5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
     .glass-card {
       background: rgba(18, 24, 38, 0.8);
       backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.06);
       box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6);
       border-radius: 2rem;
@@ -31,6 +38,7 @@
     .glass-panel {
       background: rgba(15, 20, 32, 0.85);
       backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,0.05);
     }
     .voice-bubble-user {
@@ -55,6 +63,10 @@
     @keyframes fadeInOverlay {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 10px 30px rgba(56, 189, 248, 0.35); }
+      50% { box-shadow: 0 10px 50px rgba(56, 189, 248, 0.6); }
     }
     .animate-pulse-slow { animation: pulse-slow 4s ease-in-out infinite; }
     .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
@@ -82,17 +94,31 @@
       font-size: 0.7rem;
       letter-spacing: 0.3px;
       color: #8899b8;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
-    .trust-badge i { color: #38bdf8; margin-right: 6px; }
-    .accent-text { background: linear-gradient(135deg, #38bdf8, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .trust-badge i { color: #38bdf8; }
+    .accent-text { background: linear-gradient(135deg, #38bdf8, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .btn-primary {
       background: linear-gradient(135deg, #38bdf8, #2563eb);
       box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.25);
       transition: box-shadow 0.25s ease, transform 0.25s ease;
+      cursor: pointer;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      text-align: center;
+      font-weight: 600;
     }
     .btn-primary:hover {
       box-shadow: 0 8px 32px -6px rgba(56, 189, 248, 0.4);
       transform: translateY(-2px);
+    }
+    .btn-primary:active {
+      transform: scale(0.97);
     }
     .hover-border-accent:hover { border-color: rgba(56, 189, 248, 0.4); }
 
@@ -103,6 +129,9 @@
       z-index: 9999;
     }
 
+    /* ============================================================
+       CONSULTATION FORM MODAL
+       ============================================================ */
     #consultation-overlay {
       position: fixed;
       top: 0;
@@ -111,11 +140,12 @@
       height: 100%;
       background: rgba(0, 0, 0, 0.8);
       backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       z-index: 10000;
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
       animation: fadeInOverlay 0.3s ease;
     }
     #consultation-overlay.active {
@@ -123,10 +153,10 @@
     }
 
     #consultation-modal {
-      background: rgba(18, 24, 38, 0.95);
+      background: rgba(18, 24, 38, 0.98);
       border: 1px solid rgba(56, 189, 248, 0.2);
       border-radius: 24px;
-      padding: 40px 48px;
+      padding: 32px 28px;
       max-width: 520px;
       width: 100%;
       max-height: 90vh;
@@ -147,12 +177,12 @@
 
     .modal-close-btn {
       position: absolute;
-      top: 16px;
-      right: 20px;
+      top: 12px;
+      right: 16px;
       background: rgba(255,255,255,0.06);
       border: none;
       color: #8899b8;
-      font-size: 22px;
+      font-size: 20px;
       cursor: pointer;
       width: 36px;
       height: 36px;
@@ -161,38 +191,43 @@
       align-items: center;
       justify-content: center;
       transition: all 0.25s ease;
+      -webkit-tap-highlight-color: transparent;
     }
     .modal-close-btn:hover {
       background: rgba(255,255,255,0.12);
       color: #e8edf5;
       transform: rotate(90deg);
     }
+    .modal-close-btn:active {
+      transform: scale(0.9);
+    }
 
     .modal-title {
       font-size: 24px;
       font-weight: 700;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     .modal-title span {
       background: linear-gradient(135deg, #38bdf8, #60a5fa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
     .modal-subtitle {
       color: #8899b8;
       font-size: 14px;
-      margin-bottom: 28px;
+      margin-bottom: 24px;
     }
 
     .form-group {
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .form-group label {
       display: block;
       font-size: 13px;
       font-weight: 500;
       color: #b8c7e0;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
     .form-group label .required {
       color: #f87171;
@@ -202,15 +237,17 @@
     .form-group select,
     .form-group textarea {
       width: 100%;
-      padding: 12px 16px;
+      padding: 12px 14px;
       background: rgba(255,255,255,0.05);
       border: 1px solid rgba(255,255,255,0.08);
       border-radius: 12px;
       color: #e8edf5;
-      font-size: 14px;
+      font-size: 15px;
       font-family: 'Inter', sans-serif;
       transition: border-color 0.25s ease, box-shadow 0.25s ease;
       outline: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
     .form-group input:focus,
     .form-group select:focus,
@@ -223,11 +260,11 @@
       color: #5a6a88;
     }
     .form-group select {
-      appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238899b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 16px center;
+      background-position: right 14px center;
       cursor: pointer;
+      padding-right: 36px;
     }
     .form-group select option {
       background: #1a1a2e;
@@ -235,13 +272,14 @@
     }
     .form-group textarea {
       resize: vertical;
-      min-height: 70px;
+      min-height: 60px;
+      font-size: 14px;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 14px;
+      gap: 12px;
     }
 
     .form-submit-btn {
@@ -258,6 +296,11 @@
       transition: all 0.3s ease;
       margin-top: 6px;
       box-shadow: 0 8px 24px -8px rgba(56, 189, 248, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      -webkit-tap-highlight-color: transparent;
     }
     .form-submit-btn:hover {
       transform: translateY(-2px);
@@ -267,7 +310,7 @@
       transform: scale(0.98);
     }
     .form-submit-btn i {
-      margin-right: 8px;
+      font-size: 15px;
     }
 
     .form-success {
@@ -279,33 +322,308 @@
       display: block;
     }
     .form-success .checkmark {
-      font-size: 56px;
+      font-size: 48px;
       color: #34d399;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
     .form-success h3 {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 700;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
     .form-success p {
       color: #8899b8;
       font-size: 14px;
+      line-height: 1.5;
     }
 
+    /* ============================================================
+       RESPONSIVE STYLES
+       ============================================================ */
+    
+    /* Mobile First - Extra small devices */
     @media (max-width: 480px) {
-      #consultation-modal {
-        padding: 28px 20px;
-        border-radius: 16px;
+      /* Navigation */
+      nav {
+        padding: 12px 16px !important;
+        flex-wrap: wrap;
+        gap: 8px;
       }
-      .form-row {
-        grid-template-columns: 1fr;
+      nav .text-2xl {
+        font-size: 20px !important;
+      }
+      nav .hidden.md\\:flex {
+        display: none !important;
+      }
+      nav .btn-primary {
+        padding: 8px 16px !important;
+        font-size: 12px !important;
+        border-radius: 50px !important;
+      }
+      nav .text-\\[10px\\] {
+        font-size: 8px !important;
+        padding: 2px 8px !important;
+      }
+
+      /* Hero Section */
+      section.pt-10 {
+        padding-top: 20px !important;
+      }
+      section.pb-20 {
+        padding-bottom: 40px !important;
+      }
+      h1.text-5xl {
+        font-size: 32px !important;
+        line-height: 1.2 !important;
+      }
+      .text-gray-300.text-lg {
+        font-size: 15px !important;
+        line-height: 1.6 !important;
+      }
+      
+      /* Hero Buttons - BIGGER for mobile */
+      .hero-buttons {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 10px !important;
+      }
+      .hero-buttons .btn-primary,
+      .hero-buttons button {
+        width: 100% !important;
+        padding: 16px 20px !important;
+        font-size: 16px !important;
+        border-radius: 14px !important;
+        justify-content: center !important;
+        min-height: 56px !important;
+      }
+      .hero-buttons .border {
+        padding: 16px 20px !important;
+        font-size: 16px !important;
+        border-radius: 14px !important;
+        min-height: 56px !important;
+        justify-content: center !important;
+      }
+
+      /* Trust Badges */
+      .flex-wrap.gap-2.mb-4 {
+        gap: 6px !important;
+      }
+      .trust-badge {
+        font-size: 10px !important;
+        padding: 4px 10px !important;
+      }
+
+      /* Feature Cards */
+      .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+      }
+      .glass-card.p-6 {
+        padding: 16px !important;
+        border-radius: 16px !important;
+      }
+      .glass-card.p-6 h3 {
+        font-size: 17px !important;
+      }
+      .glass-card.p-6 p {
+        font-size: 13px !important;
+      }
+
+      /* Stats */
+      .grid-cols-2.md\\:grid-cols-4 {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+      .bg-white\\/5.p-6 {
+        padding: 16px !important;
+        border-radius: 16px !important;
+      }
+      .text-4xl.font-black {
+        font-size: 28px !important;
+      }
+      .font-bold.text-lg {
+        font-size: 15px !important;
+      }
+      .text-gray-400.text-sm {
+        font-size: 12px !important;
+      }
+
+      /* Industries */
+      .grid.sm\\:grid-cols-2.lg\\:grid-cols-5 {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+      }
+      .rounded-xl.p-5 {
+        padding: 12px !important;
+      }
+      .text-3xl {
+        font-size: 24px !important;
+      }
+      .font-bold.text-lg {
+        font-size: 14px !important;
+      }
+
+      /* Pricing */
+      .glass-card.p-8 {
+        padding: 20px !important;
+        border-radius: 16px !important;
+      }
+      .flex-col.md\\:flex-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 16px !important;
+      }
+      .text-3xl.font-bold {
+        font-size: 26px !important;
+      }
+      .btn-primary.px-8.py-3 {
+        padding: 14px 24px !important;
+        font-size: 15px !important;
+        width: 100% !important;
+        justify-content: center !important;
+        border-radius: 12px !important;
+      }
+
+      /* CTA Section */
+      .glass-card.p-12 {
+        padding: 24px 20px !important;
+        border-radius: 20px !important;
+      }
+      .text-4xl.md\\:text-5xl {
+        font-size: 28px !important;
+        line-height: 1.3 !important;
+      }
+      .btn-primary.px-10.py-4 {
+        padding: 16px 24px !important;
+        font-size: 16px !important;
+        width: 100% !important;
+        justify-content: center !important;
+        border-radius: 14px !important;
+        min-height: 56px !important;
+      }
+
+      /* Modal */
+      #consultation-modal {
+        padding: 24px 18px !important;
+        border-radius: 18px !important;
+        max-height: 95vh !important;
       }
       .modal-title {
-        font-size: 20px;
+        font-size: 20px !important;
       }
-      #consultation-overlay {
-        padding: 12px;
+      .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 0 !important;
+      }
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 14px !important;
+        font-size: 16px !important;
+      }
+      .form-submit-btn {
+        padding: 16px !important;
+        font-size: 17px !important;
+        border-radius: 14px !important;
+        min-height: 56px !important;
+      }
+
+      /* Footer */
+      footer .flex-wrap {
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 16px !important;
+        text-align: center !important;
+      }
+      footer .gap-8 {
+        gap: 16px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+      }
+
+      /* ElevenLabs Widget */
+      elevenlabs-convai {
+        bottom: 16px !important;
+        right: 16px !important;
+      }
+      
+      /* How It Works */
+      .grid.md\\:grid-cols-3 {
+        grid-template-columns: 1fr !important;
+        gap: 14px !important;
+      }
+      .glass-panel.p-8 {
+        padding: 20px !important;
+      }
+
+      /* Stats icons */
+      .text-4xl.font-black.text-cyan-400 {
+        font-size: 32px !important;
+      }
+    }
+
+    /* Small devices (481px - 768px) */
+    @media (min-width: 481px) and (max-width: 768px) {
+      nav .hidden.md\\:flex {
+        display: none !important;
+      }
+      .hero-buttons {
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+      }
+      .hero-buttons .btn-primary,
+      .hero-buttons button {
+        flex: 1 !important;
+        min-width: 160px !important;
+        padding: 14px 20px !important;
+        font-size: 15px !important;
+        justify-content: center !important;
+      }
+      .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-3 {
+        grid-template-columns: 1fr 1fr !important;
+      }
+      .grid.sm\\:grid-cols-2.lg\\:grid-cols-5 {
+        grid-template-columns: 1fr 1fr 1fr !important;
+      }
+      .flex-col.md\\:flex-row {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 16px !important;
+      }
+      .btn-primary.px-8.py-3 {
+        width: 100% !important;
+        justify-content: center !important;
+      }
+      #consultation-modal {
+        padding: 28px 24px !important;
+      }
+    }
+
+    /* Large screens - hover effects only on desktop */
+    @media (hover: hover) {
+      .hover-scale:hover {
+        transform: translateY(-4px);
+      }
+    }
+
+    /* Touch devices - no hover effects on tap */
+    @media (hover: none) {
+      .hover-scale:hover {
+        transform: none !important;
+      }
+      .btn-primary:hover {
+        transform: none !important;
+      }
+      .glass-card:hover {
+        border-color: rgba(255,255,255,0.06) !important;
+        box-shadow: 0 20px 40px -12px rgba(0,0,0,0.6) !important;
+      }
+    }
+
+    /* Prevent zoom on input focus for iOS */
+    @supports (-webkit-touch-callout: none) {
+      input, select, textarea {
+        font-size: 16px !important;
       }
     }
   </style>
@@ -396,136 +714,228 @@
     </div>
   </div>
 
+  <!-- Navigation -->
   <nav class="relative z-20 flex justify-between items-center py-5 px-6 md:px-12 max-w-7xl mx-auto">
     <div class="flex items-center gap-3">
-      <div class="text-2xl font-bold tracking-tight"><span class="accent-text">Neev Voice</span></div>
-      <span class="text-[10px] uppercase tracking-wider border border-cyan-400/20 rounded-full px-3 py-0.5 bg-white/5 text-cyan-300 font-medium">Agency</span>
+      <div class="text-2xl md:text-3xl font-bold tracking-tight"><span class="accent-text">Neev Voice</span></div>
+      <span class="text-[10px] md:text-xs uppercase tracking-wider border border-cyan-400/20 rounded-full px-2 md:px-3 py-0.5 bg-white/5 text-cyan-300 font-medium">Agency</span>
     </div>
     <div class="hidden md:flex gap-8 text-gray-300 text-sm font-medium">
       <a href="#agents" class="hover:text-cyan-400 transition-colors">Voice Agents</a>
       <a href="#how-it-works" class="hover:text-cyan-400 transition-colors">Process</a>
       <a href="#pricing" class="hover:text-cyan-400 transition-colors">Pricing</a>
     </div>
-    <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-medium px-5 py-2 rounded-full text-sm">
-      <i class="fas fa-phone mr-2"></i>Book a Call
+    <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-medium px-4 md:px-5 py-2 rounded-full text-xs md:text-sm shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40">
+      <i class="fas fa-phone mr-1 md:mr-2"></i>Book a Call
     </button>
   </nav>
 
-  <section class="relative z-10 pt-10 pb-20 px-6 md:px-12 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+  <!-- Hero -->
+  <section class="relative z-10 pt-6 md:pt-10 pb-12 md:pb-20 px-4 md:px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-8 md:gap-12 items-center">
     <div class="fade-in-left">
       <div class="flex flex-wrap gap-2 mb-4">
         <span class="trust-badge"><i class="fas fa-shield-alt"></i> ISO 27001</span>
         <span class="trust-badge"><i class="fas fa-globe"></i> 50+ clients</span>
         <span class="trust-badge"><i class="fas fa-clock"></i> 24/7 SLA</span>
       </div>
-      <h1 class="text-5xl md:text-6xl font-extrabold leading-[1.1] tracking-tight">
+      <h1 class="text-4xl md:text-6xl font-extrabold leading-[1.1] tracking-tight">
         <span class="bg-gradient-to-br from-white via-white to-cyan-200 bg-clip-text text-transparent">Enterprise-grade</span><br />
         <span class="accent-text">Voice Agents</span>
       </h1>
-      <p class="text-gray-300 text-lg mt-6 leading-relaxed max-w-lg">Neev Voice builds production-ready AI voice agents for feedback, reminders, receptionist RAG, and appointment booking — tailored for Indian enterprises.
+      <p class="text-gray-300 text-base md:text-lg mt-4 md:mt-6 leading-relaxed max-w-lg">Neev Voice builds production-ready AI voice agents for feedback, reminders, receptionist RAG, and appointment booking — tailored for Indian enterprises.
         <span class="text-cyan-300 font-medium block mt-2">🌐 Multilingual: English, Hindi, Tamil, Kannada, Telugu</span>
       </p>
-      <div class="flex flex-wrap gap-4 mt-8">
-        <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-8 py-3.5 rounded-full text-base">
+      <div class="hero-buttons flex flex-wrap gap-3 md:gap-4 mt-6 md:mt-8">
+        <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-6 md:px-8 py-3.5 rounded-full text-sm md:text-base shadow-xl shadow-cyan-600/20 transition-all hover:scale-[1.02] flex-1 min-w-[140px]">
           <i class="fas fa-calendar-check mr-2"></i>Book a Consultation
         </button>
+        <button id="hearDemoBtn" class="border border-white/15 bg-white/5 backdrop-blur-sm px-6 md:px-7 py-3.5 rounded-full font-medium text-white hover:bg-white/10 transition-all flex-1 min-w-[120px] text-sm md:text-base">
+          <i class="fas fa-headphones mr-2"></i>Hear Demo
+        </button>
       </div>
-      <div class="flex items-center gap-6 mt-8 text-sm text-gray-400">
+      <div class="flex flex-wrap items-center gap-4 md:gap-6 mt-6 md:mt-8 text-xs md:text-sm text-gray-400">
         <span><i class="fas fa-check-circle text-cyan-400 mr-1"></i> 2-week deployment</span>
         <span><i class="fas fa-check-circle text-cyan-400 mr-1"></i> 99.9% uptime</span>
         <span><i class="fas fa-check-circle text-cyan-400 mr-1"></i> Human handoff</span>
       </div>
     </div>
     <div class="fade-in-right">
-      <div class="glass-card p-3 rounded-3xl shadow-2xl">
-        <div class="bg-black/30 rounded-2xl p-2">
-          <div class="flex items-center gap-2 bg-[#0f141f] rounded-t-xl p-3 border-b border-white/5">
-            <i class="fas fa-microphone text-cyan-400 text-xl"></i>
-            <span class="text-sm font-semibold text-white">Receptionist RAG • Live Demo</span>
-            <span class="ml-auto text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full">active</span>
+      <div class="glass-card p-2 md:p-3 rounded-2xl md:rounded-3xl shadow-2xl">
+        <div class="bg-black/30 rounded-xl md:rounded-2xl p-2">
+          <div class="flex items-center gap-2 bg-[#0f141f] rounded-t-xl p-2 md:p-3 border-b border-white/5">
+            <i class="fas fa-microphone text-cyan-400 text-lg md:text-xl"></i>
+            <span class="text-xs md:text-sm font-semibold text-white">Receptionist RAG • Live Demo</span>
+            <span class="ml-auto text-[8px] md:text-[10px] bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full">active</span>
           </div>
-          <div class="h-80 overflow-y-auto p-3 space-y-3 bg-[#080c14] rounded-b-xl">
-            <div class="voice-bubble-bot p-3 max-w-[80%] text-sm text-white"><span class="text-cyan-400 font-bold">🎙️ Agent:</span> Hello! I'm your AI receptionist. How can I help? Book a visit, check status, or speak to a human?</div>
-            <div class="voice-bubble-user p-3 max-w-[80%] ml-auto text-sm text-white"><span class="font-bold">👤 Caller:</span> I need to book an appointment for a dental checkup.</div>
-            <div class="voice-bubble-bot p-3 max-w-[80%] text-sm text-white"><span class="text-cyan-400 font-bold">🎙️ Agent:</span> Great! I can book that. When would you prefer? We have slots tomorrow at 10 AM or 2 PM.</div>
-            <div class="voice-bubble-user p-3 max-w-[80%] ml-auto text-sm text-white"><span class="font-bold">👤 Caller:</span> 10 AM works.</div>
-            <div class="voice-bubble-bot p-3 max-w-[80%] text-sm text-white"><span class="text-cyan-400 font-bold">🎙️ Agent:</span> ✅ Confirmed! You'll get a reminder call 1 hour before. Thank you!</div>
+          <div class="h-64 md:h-80 overflow-y-auto p-2 md:p-3 space-y-2 md:space-y-3 bg-[#080c14] rounded-b-xl">
+            <div class="voice-bubble-bot p-2 md:p-3 max-w-[85%] text-xs md:text-sm text-white">
+              <span class="text-cyan-400 font-bold">🎙️ Agent:</span> Hello! I'm your AI receptionist. How can I help? Book a visit, check status, or speak to a human?
+            </div>
+            <div class="voice-bubble-user p-2 md:p-3 max-w-[85%] ml-auto text-xs md:text-sm text-white">
+              <span class="font-bold">👤 Caller:</span> I need to book an appointment for a dental checkup.
+            </div>
+            <div class="voice-bubble-bot p-2 md:p-3 max-w-[85%] text-xs md:text-sm text-white">
+              <span class="text-cyan-400 font-bold">🎙️ Agent:</span> Great! I can book that. When would you prefer? We have slots tomorrow at 10 AM or 2 PM.
+            </div>
+            <div class="voice-bubble-user p-2 md:p-3 max-w-[85%] ml-auto text-xs md:text-sm text-white">
+              <span class="font-bold">👤 Caller:</span> 10 AM works.
+            </div>
+            <div class="voice-bubble-bot p-2 md:p-3 max-w-[85%] text-xs md:text-sm text-white">
+              <span class="text-cyan-400 font-bold">🎙️ Agent:</span> ✅ Confirmed! You'll get a reminder call 1 hour before. Thank you!
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="agents" class="relative z-10 py-20 px-6 max-w-7xl mx-auto">
+  <!-- Voice Agent Types -->
+  <section id="agents" class="relative z-10 py-12 md:py-20 px-4 md:px-6 max-w-7xl mx-auto">
     <div class="text-center fade-in-up">
-      <span class="text-cyan-400 font-semibold text-sm tracking-wider uppercase">Solutions</span>
-      <h2 class="text-4xl font-bold text-white mt-2">Voice Agents for <span class="accent-text">Every Need</span></h2>
-      <p class="text-gray-400 mt-3 max-w-2xl mx-auto">Purpose-built, production-ready voice agents that sound human, understand context, and drive outcomes.</p>
+      <span class="text-cyan-400 font-semibold text-xs md:text-sm tracking-wider uppercase">Solutions</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mt-2">Voice Agents for <span class="accent-text">Every Need</span></h2>
+      <p class="text-gray-400 text-sm md:text-base mt-2 md:mt-3 max-w-2xl mx-auto">Purpose-built, production-ready voice agents that sound human, understand context, and drive outcomes.</p>
     </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-star text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Feedback Agent</h3><p class="text-gray-300 text-sm mt-2">Post-call & service feedback with sentiment analysis and NPS scoring. Integrates with CRM.</p></div>
-      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-bell text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Reminder Agent</h3><p class="text-gray-300 text-sm mt-2">Automated voice reminders for appointments, payments, renewals — reduces no-shows by 70%.</p></div>
-      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-robot text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Receptionist RAG</h3><p class="text-gray-300 text-sm mt-2">Retrieval-augmented voice agent that answers queries, books services, and routes calls intelligently.</p></div>
-      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-calendar-plus text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Booking Agent</h3><p class="text-gray-300 text-sm mt-2">End-to-end voice scheduling for clinics, gyms, salons, and consultations — with calendar sync.</p></div>
-      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-headset text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Support Agent</h3><p class="text-gray-300 text-sm mt-2">24/7 voice support for FAQs, troubleshooting, and escalation — with seamless human handoff.</p></div>
-      <div class="glass-card p-6 rounded-2xl hover-border-accent transition-all"><div class="w-12 h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-4"><i class="fas fa-phone-alt text-2xl text-cyan-400"></i></div><h3 class="text-xl font-bold text-white">Outbound Agent</h3><p class="text-gray-300 text-sm mt-2">Proactive voice outreach for lead qualification, surveys, and appointment confirmation.</p></div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-8 md:mt-16">
+      <div class="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl hover-border-accent transition-all">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-3 md:mb-4"><i class="fas fa-star text-xl md:text-2xl text-cyan-400"></i></div>
+        <h3 class="text-lg md:text-xl font-bold text-white">Feedback Agent</h3>
+        <p class="text-gray-300 text-xs md:text-sm mt-1 md:mt-2">Post-call & service feedback with sentiment analysis and NPS scoring. Integrates with CRM.</p>
+      </div>
+      <div class="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl hover-border-accent transition-all">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-3 md:mb-4"><i class="fas fa-bell text-xl md:text-2xl text-cyan-400"></i></div>
+        <h3 class="text-lg md:text-xl font-bold text-white">Reminder Agent</h3>
+        <p class="text-gray-300 text-xs md:text-sm mt-1 md:mt-2">Automated voice reminders for appointments, payments, renewals — reduces no-shows by 70%.</p>
+      </div>
+      <div class="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl hover-border-accent transition-all">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-3 md:mb-4"><i class="fas fa-robot text-xl md:text-2xl text-cyan-400"></i></div>
+        <h3 class="text-lg md:text-xl font-bold text-white">Receptionist RAG</h3>
+        <p class="text-gray-300 text-xs md:text-sm mt-1 md:mt-2">Retrieval-augmented voice agent that answers queries, books services, and routes calls intelligently.</p>
+      </div>
+      <div class="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl hover-border-accent transition-all">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-3 md:mb-4"><i class="fas fa-calendar-plus text-xl md:text-2xl text-cyan-400"></i></div>
+        <h3 class="text-lg md:text-xl font-bold text-white">Booking Agent</h3>
+        <p class="text-gray-300 text-xs md:text-sm mt-1 md:mt-2">End-to-end voice scheduling for clinics, gyms, salons, and consultations — with calendar sync.</p>
+      </div>
+      <div class="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl hover-border-accent transition-all">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-3 md:mb-4"><i class="fas fa-headset text-xl md:text-2xl text-cyan-400"></i></div>
+        <h3 class="text-lg md:text-xl font-bold text-white">Support Agent</h3>
+        <p class="text-gray-300 text-xs md:text-sm mt-1 md:mt-2">24/7 voice support for FAQs, troubleshooting, and escalation — with seamless human handoff.</p>
+      </div>
+      <div class="glass-card p-4 md:p-6 rounded-xl md:rounded-2xl hover-border-accent transition-all">
+        <div class="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mb-3 md:mb-4"><i class="fas fa-phone-alt text-xl md:text-2xl text-cyan-400"></i></div>
+        <h3 class="text-lg md:text-xl font-bold text-white">Outbound Agent</h3>
+        <p class="text-gray-300 text-xs md:text-sm mt-1 md:mt-2">Proactive voice outreach for lead qualification, surveys, and appointment confirmation.</p>
+      </div>
     </div>
   </section>
 
-  <section id="how-it-works" class="relative z-10 py-16 px-6 max-w-7xl mx-auto">
-    <h2 class="text-4xl font-bold text-center text-white fade-in-up">⚡ Build & Deploy in 3 Steps</h2>
-    <p class="text-center text-gray-400 mt-3 max-w-xl mx-auto">From discovery to production — we handle the heavy lifting.</p>
-    <div class="grid md:grid-cols-3 gap-8 mt-12">
-      <div class="glass-panel rounded-2xl p-8 text-center border border-white/5 hover-scale"><div class="w-14 h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-xl font-bold flex items-center justify-center mx-auto mb-5">01</div><p class="text-white text-lg font-semibold">Discovery & Design</p><p class="text-gray-400 text-sm mt-2">We map your business process, conversation flow, and integration needs.</p></div>
-      <div class="glass-panel rounded-2xl p-8 text-center border border-white/5 hover-scale"><div class="w-14 h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-xl font-bold flex items-center justify-center mx-auto mb-5">02</div><p class="text-white text-lg font-semibold">Build & Train</p><p class="text-gray-400 text-sm mt-2">Custom voice model + RAG pipeline + telephony integration with your systems.</p></div>
-      <div class="glass-panel rounded-2xl p-8 text-center border border-white/5 hover-scale"><div class="w-14 h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-xl font-bold flex items-center justify-center mx-auto mb-5">03</div><p class="text-white text-lg font-semibold">Deploy & Optimize</p><p class="text-gray-400 text-sm mt-2">Go live, monitor, and iterate — we provide ongoing support and improvements.</p></div>
+  <!-- How It Works -->
+  <section id="how-it-works" class="relative z-10 py-12 md:py-16 px-4 md:px-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-white fade-in-up">⚡ Build & Deploy in 3 Steps</h2>
+    <p class="text-center text-gray-400 text-sm md:text-base mt-2 md:mt-3 max-w-xl mx-auto">From discovery to production — we handle the heavy lifting.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mt-8 md:mt-12">
+      <div class="glass-panel rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-white/5 hover-scale">
+        <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-lg md:text-xl font-bold flex items-center justify-center mx-auto mb-4 md:mb-5">01</div>
+        <p class="text-white text-base md:text-lg font-semibold">Discovery & Design</p>
+        <p class="text-gray-400 text-xs md:text-sm mt-1 md:mt-2">We map your business process, conversation flow, and integration needs.</p>
+      </div>
+      <div class="glass-panel rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-white/5 hover-scale">
+        <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-lg md:text-xl font-bold flex items-center justify-center mx-auto mb-4 md:mb-5">02</div>
+        <p class="text-white text-base md:text-lg font-semibold">Build & Train</p>
+        <p class="text-gray-400 text-xs md:text-sm mt-1 md:mt-2">Custom voice model + RAG pipeline + telephony integration with your systems.</p>
+      </div>
+      <div class="glass-panel rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-white/5 hover-scale">
+        <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-cyan-500/15 border border-cyan-400/30 text-cyan-400 text-lg md:text-xl font-bold flex items-center justify-center mx-auto mb-4 md:mb-5">03</div>
+        <p class="text-white text-base md:text-lg font-semibold">Deploy & Optimize</p>
+        <p class="text-gray-400 text-xs md:text-sm mt-1 md:mt-2">Go live, monitor, and iterate — we provide ongoing support and improvements.</p>
+      </div>
     </div>
   </section>
 
-  <section class="relative z-10 py-20 px-6 max-w-7xl mx-auto">
+  <!-- Industries -->
+  <section class="relative z-10 py-12 md:py-20 px-4 md:px-6 max-w-7xl mx-auto">
     <div class="text-center fade-in-up">
-      <span class="text-cyan-400 font-semibold text-sm tracking-wider uppercase">Industries</span>
-      <h2 class="text-4xl font-bold text-white mt-2">Trusted by <span class="accent-text">Indian Businesses</span></h2>
-      <p class="text-gray-400 mt-2">Voice agents tailored for your sector</p>
+      <span class="text-cyan-400 font-semibold text-xs md:text-sm tracking-wider uppercase">Industries</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-white mt-2">Trusted by <span class="accent-text">Indian Businesses</span></h2>
+      <p class="text-gray-400 text-sm md:text-base mt-1 md:mt-2">Voice agents tailored for your sector</p>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-12">
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-tooth text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Dental Clinics</h4><p class="text-gray-400 text-xs mt-2">Booking, reminders & feedback</p></div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-dumbbell text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Gyms</h4><p class="text-gray-400 text-xs mt-2">Check-ins, renewals, class booking</p></div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-cut text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Salons</h4><p class="text-gray-400 text-xs mt-2">Appointments & recommendations</p></div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-chalkboard-user text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Coaching</h4><p class="text-gray-400 text-xs mt-2">Demos, fees, enrollment</p></div>
-      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all"><i class="fas fa-building text-3xl text-cyan-400 mb-3"></i><h4 class="font-bold text-lg text-white">Realtors</h4><p class="text-gray-400 text-xs mt-2">Lead qualification & site visits</p></div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mt-8 md:mt-12">
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-3 md:p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all">
+        <i class="fas fa-tooth text-2xl md:text-3xl text-cyan-400 mb-2 md:mb-3"></i>
+        <h4 class="font-bold text-sm md:text-lg text-white">Dental Clinics</h4>
+        <p class="text-gray-400 text-[10px] md:text-xs mt-1">Booking, reminders & feedback</p>
+      </div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-3 md:p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all">
+        <i class="fas fa-dumbbell text-2xl md:text-3xl text-cyan-400 mb-2 md:mb-3"></i>
+        <h4 class="font-bold text-sm md:text-lg text-white">Gyms</h4>
+        <p class="text-gray-400 text-[10px] md:text-xs mt-1">Check-ins, renewals, class booking</p>
+      </div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-3 md:p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all">
+        <i class="fas fa-cut text-2xl md:text-3xl text-cyan-400 mb-2 md:mb-3"></i>
+        <h4 class="font-bold text-sm md:text-lg text-white">Salons</h4>
+        <p class="text-gray-400 text-[10px] md:text-xs mt-1">Appointments & recommendations</p>
+      </div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-3 md:p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all">
+        <i class="fas fa-chalkboard-user text-2xl md:text-3xl text-cyan-400 mb-2 md:mb-3"></i>
+        <h4 class="font-bold text-sm md:text-lg text-white">Coaching</h4>
+        <p class="text-gray-400 text-[10px] md:text-xs mt-1">Demos, fees, enrollment</p>
+      </div>
+      <div class="bg-white/5 backdrop-blur-sm rounded-xl p-3 md:p-5 border border-white/5 text-center hover-scale hover:border-cyan-400/30 transition-all">
+        <i class="fas fa-building text-2xl md:text-3xl text-cyan-400 mb-2 md:mb-3"></i>
+        <h4 class="font-bold text-sm md:text-lg text-white">Realtors</h4>
+        <p class="text-gray-400 text-[10px] md:text-xs mt-1">Lead qualification & site visits</p>
+      </div>
     </div>
   </section>
 
-  <section class="relative z-10 py-16 px-6 max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6">
-    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">4x</div><div class="font-bold text-lg text-white mt-2">Faster Resolution</div><div class="text-gray-400 text-sm">Voice agents cut call time</div></div>
-    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">72%</div><div class="font-bold text-lg text-white mt-2">Less No-Shows</div><div class="text-gray-400 text-sm">Voice reminders work</div></div>
-    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">30+</div><div class="font-bold text-lg text-white mt-2">Hours Saved</div><div class="text-gray-400 text-sm">Per week for receptionists</div></div>
-    <div class="bg-white/5 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/5 hover-scale"><div class="text-4xl font-black text-cyan-400">24/7</div><div class="font-bold text-lg text-white mt-2">Always On</div><div class="text-gray-400 text-sm">Voice agents never sleep</div></div>
+  <!-- Stats -->
+  <section class="relative z-10 py-12 md:py-16 px-4 md:px-6 max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+    <div class="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 text-center border border-white/5 hover-scale">
+      <div class="text-3xl md:text-4xl font-black text-cyan-400">4x</div>
+      <div class="font-bold text-sm md:text-lg text-white mt-1 md:mt-2">Faster Resolution</div>
+      <div class="text-gray-400 text-[10px] md:text-sm">Voice agents cut call time</div>
+    </div>
+    <div class="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 text-center border border-white/5 hover-scale">
+      <div class="text-3xl md:text-4xl font-black text-cyan-400">72%</div>
+      <div class="font-bold text-sm md:text-lg text-white mt-1 md:mt-2">Less No-Shows</div>
+      <div class="text-gray-400 text-[10px] md:text-sm">Voice reminders work</div>
+    </div>
+    <div class="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 text-center border border-white/5 hover-scale">
+      <div class="text-3xl md:text-4xl font-black text-cyan-400">30+</div>
+      <div class="font-bold text-sm md:text-lg text-white mt-1 md:mt-2">Hours Saved</div>
+      <div class="text-gray-400 text-[10px] md:text-sm">Per week for receptionists</div>
+    </div>
+    <div class="bg-white/5 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 text-center border border-white/5 hover-scale">
+      <div class="text-3xl md:text-4xl font-black text-cyan-400">24/7</div>
+      <div class="font-bold text-sm md:text-lg text-white mt-1 md:mt-2">Always On</div>
+      <div class="text-gray-400 text-[10px] md:text-sm">Voice agents never sleep</div>
+    </div>
   </section>
 
-  <section id="pricing" class="relative z-10 py-20 px-6 max-w-7xl mx-auto">
-    <h2 class="text-4xl font-bold text-center text-white fade-in-up">Simple, transparent <span class="accent-text">pricing</span></h2>
-    <p class="text-center text-gray-400 mt-4 max-w-2xl mx-auto">One-time build + low monthly maintenance. No hidden fees. Cancel anytime.</p>
-    <div class="max-w-2xl mx-auto mt-10">
-      <div class="glass-card p-8 rounded-2xl border border-white/5">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div>
-            <p class="text-sm text-gray-400 font-medium">Custom Voice Agent</p>
-            <div class="flex items-baseline gap-2 mt-1">
-              <span class="text-3xl font-bold text-white">₹9,999</span>
-              <span class="text-sm text-gray-400">one-time build</span>
-              <span class="text-cyan-400 mx-2">+</span>
-              <span class="text-3xl font-bold text-white">₹3,999</span>
-              <span class="text-sm text-gray-400">/month</span>
+  <!-- Pricing -->
+  <section id="pricing" class="relative z-10 py-12 md:py-20 px-4 md:px-6 max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-white fade-in-up">Simple, transparent <span class="accent-text">pricing</span></h2>
+    <p class="text-center text-gray-400 text-sm md:text-base mt-2 md:mt-4 max-w-2xl mx-auto">One-time build + low monthly maintenance. No hidden fees. Cancel anytime.</p>
+    <div class="max-w-2xl mx-auto mt-8 md:mt-10">
+      <div class="glass-card p-5 md:p-8 rounded-xl md:rounded-2xl border border-white/5">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
+          <div class="text-center md:text-left">
+            <p class="text-xs md:text-sm text-gray-400 font-medium">Custom Voice Agent</p>
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-1 md:gap-2 mt-1">
+              <span class="text-2xl md:text-3xl font-bold text-white">₹9,999</span>
+              <span class="text-xs md:text-sm text-gray-400">one-time build</span>
+              <span class="text-cyan-400 mx-1">+</span>
+              <span class="text-2xl md:text-3xl font-bold text-white">₹3,999</span>
+              <span class="text-xs md:text-sm text-gray-400">/month</span>
             </div>
-            <div class="flex items-center gap-4 mt-2 text-xs text-gray-400">
+            <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-4 mt-2 text-[10px] md:text-xs text-gray-400">
               <span><i class="fas fa-check text-cyan-400 mr-1"></i> 2-week delivery</span>
               <span><i class="fas fa-check text-cyan-400 mr-1"></i> SLA support</span>
               <span><i class="fas fa-check text-cyan-400 mr-1"></i> No contract</span>
             </div>
           </div>
-          <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-8 py-3 rounded-full whitespace-nowrap">
+          <button onclick="document.getElementById('demo-form').scrollIntoView({behavior:'smooth'})" class="btn-primary text-white font-semibold px-6 md:px-8 py-3 rounded-full shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-all hover:scale-105 whitespace-nowrap w-full md:w-auto text-sm md:text-base">
             <i class="fas fa-phone mr-2"></i>Book a Call
           </button>
         </div>
@@ -533,36 +943,38 @@
     </div>
   </section>
 
-  <section id="demo-form" class="relative z-10 py-24 px-6 text-center">
-    <div class="max-w-3xl mx-auto glass-card p-12 rounded-3xl border border-white/5">
-      <h2 class="text-4xl md:text-5xl font-bold text-white">Ready to deploy a <br/> <span class="accent-text">voice agent</span> for your business?</h2>
-      <p class="text-gray-300 mt-4 max-w-lg mx-auto">Let's discuss your requirements. We'll design, build, and deploy a custom voice agent in 2 weeks.</p>
-      <button id="consultationBtn" class="btn-primary text-white font-bold px-10 py-4 rounded-full text-xl">
+  <!-- CTA -->
+  <section id="demo-form" class="relative z-10 py-16 md:py-24 px-4 md:px-6 text-center">
+    <div class="max-w-3xl mx-auto glass-card p-6 md:p-12 rounded-2xl md:rounded-3xl border border-white/5">
+      <h2 class="text-3xl md:text-5xl font-bold text-white">Ready to deploy a <br/> <span class="accent-text">voice agent</span> for your business?</h2>
+      <p class="text-gray-300 text-sm md:text-base mt-3 md:mt-4 max-w-lg mx-auto">Let's discuss your requirements. We'll design, build, and deploy a custom voice agent in 2 weeks.</p>
+      <button id="consultationBtn" class="btn-primary text-white font-bold px-8 md:px-10 py-4 rounded-full text-lg md:text-xl w-full md:w-auto mt-6 md:mt-8 shadow-2xl shadow-cyan-600/30 hover:shadow-cyan-600/50 transition-all hover:scale-[1.02] min-h-[56px]">
         <i class="fas fa-calendar-check mr-3"></i>Book a Free Consultation
       </button>
-      <p class="mt-4 text-gray-400 text-sm">No obligation. We'll show you a live demo tailored to your use case.</p>
+      <p class="mt-3 md:mt-4 text-gray-400 text-xs md:text-sm">No obligation. We'll show you a live demo tailored to your use case.</p>
     </div>
   </section>
 
-  <footer class="relative z-10 border-t border-white/5 py-12 px-6 max-w-7xl mx-auto">
-    <div class="flex flex-wrap justify-between items-center gap-8">
-      <div>
-        <div class="text-xl font-bold"><span class="accent-text">Neev Voice</span></div>
-        <p class="text-gray-500 text-sm mt-1">Enterprise Voice Agent Agency</p>
+  <!-- Footer -->
+  <footer class="relative z-10 border-t border-white/5 py-8 md:py-12 px-4 md:px-6 max-w-7xl mx-auto">
+    <div class="flex flex-wrap flex-col md:flex-row justify-between items-center gap-4 md:gap-8">
+      <div class="text-center md:text-left">
+        <div class="text-lg md:text-xl font-bold"><span class="accent-text">Neev Voice</span></div>
+        <p class="text-gray-500 text-xs md:text-sm mt-1">Enterprise Voice Agent Agency</p>
       </div>
-      <div class="flex gap-8 text-gray-400 text-sm">
+      <div class="flex flex-wrap justify-center gap-4 md:gap-8 text-gray-400 text-xs md:text-sm">
         <a href="#agents" class="hover:text-cyan-400 transition">Solutions</a>
         <a href="#pricing" class="hover:text-cyan-400 transition">Pricing</a>
         <a href="#" class="hover:text-cyan-400 transition">Privacy</a>
         <a href="#" class="hover:text-cyan-400 transition">Contact</a>
       </div>
-      <div class="flex gap-5 text-lg text-gray-500">
+      <div class="flex gap-4 md:gap-5 text-base md:text-lg text-gray-500">
         <i class="fab fa-linkedin hover:text-cyan-400 cursor-pointer transition"></i>
         <i class="fab fa-twitter hover:text-cyan-400 cursor-pointer transition"></i>
         <i class="fab fa-whatsapp hover:text-green-400 cursor-pointer transition"></i>
       </div>
     </div>
-    <div class="text-center text-gray-500 text-xs mt-8 border-t border-white/5 pt-6">© 2025 Neev Voice — Built for Indian enterprises</div>
+    <div class="text-center text-gray-500 text-[10px] md:text-xs mt-6 md:mt-8 border-t border-white/5 pt-6">© 2025 Neev Voice — Built for Indian enterprises</div>
   </footer>
 
   <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
@@ -594,7 +1006,7 @@
       }, 200);
 
       // ============================================================
-      // CONSULTATION FORM - With CORS Fix using Multiple Methods
+      // CONSULTATION FORM
       // ============================================================
       
       const overlay = document.getElementById('consultation-overlay');
@@ -604,10 +1016,10 @@
       const formContent = document.getElementById('form-content');
       const successMsg = document.getElementById('form-success');
 
-      // Your Google Apps Script URL
+      // Your Google Apps Script URL - UPDATE THIS
       const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbztxi13ZCWEMZWDTnqchSAz7foHoPELMzONuD8RudLEdZIGqnCDPTYEPydVqzpiMaYY/exec';
 
-      // CORS Proxy URLs (free, public)
+      // CORS Proxies
       const CORS_PROXIES = [
         'https://api.allorigins.win/raw?url=',
         'https://corsproxy.io/?',
@@ -644,11 +1056,10 @@
       });
 
       // ============================================================
-      // FORM SUBMISSION WITH CORS FIX
+      // FORM SUBMISSION
       // ============================================================
       
       async function submitToGoogleSheets(formData) {
-        // Method 1: Direct fetch (may fail due to CORS)
         try {
           const response = await fetch(GOOGLE_SHEETS_URL, {
             method: 'POST',
@@ -659,7 +1070,6 @@
         } catch (directError) {
           console.log('Direct fetch failed, trying proxy...');
           
-          // Method 2: Try with CORS proxy
           for (const proxy of CORS_PROXIES) {
             try {
               const proxyUrl = proxy + encodeURIComponent(GOOGLE_SHEETS_URL);
@@ -670,12 +1080,11 @@
               });
               return await response.json();
             } catch (proxyError) {
-              console.log(`Proxy ${proxy} failed, trying next...`);
+              console.log(`Proxy failed, trying next...`);
               continue;
             }
           }
           
-          // Method 3: Use fetch with no-cors mode (may still work)
           try {
             const response = await fetch(GOOGLE_SHEETS_URL, {
               method: 'POST',
@@ -725,7 +1134,6 @@
           submitBtn.innerHTML = originalText;
           submitBtn.disabled = false;
           
-          // For no-cors mode, we assume success
           if (result.success || result.message === 'Submitted (no-cors mode)') {
             formContent.style.display = 'none';
             successMsg.classList.add('active');
@@ -738,9 +1146,7 @@
           submitBtn.innerHTML = originalText;
           submitBtn.disabled = false;
           
-          // If all methods fail, show a fallback - save to localStorage
           try {
-            // Save to localStorage as fallback
             const submissions = JSON.parse(localStorage.getItem('neev_submissions') || '[]');
             submissions.push({ ...formData, timestamp: new Date().toISOString() });
             localStorage.setItem('neev_submissions', JSON.stringify(submissions));
@@ -752,6 +1158,26 @@
             alert('❌ Network error. Please try again or contact us directly.');
             console.error('All methods failed:', error);
           }
+        }
+      });
+
+      // Hear Demo Button - opens the ElevenLabs widget
+      document.getElementById('hearDemoBtn').addEventListener('click', function() {
+        // Find the ElevenLabs widget and click its button
+        const widget = document.querySelector('elevenlabs-convai');
+        if (widget) {
+          // Try to find the launcher button inside the widget
+          const launcher = widget.shadowRoot?.querySelector('.convai-widget-button') || 
+                           widget.querySelector('.convai-widget-button');
+          if (launcher) {
+            launcher.click();
+          } else {
+            // If we can't find the button, just log
+            console.log('ElevenLabs widget found but launcher not accessible. Click the widget button manually.');
+            alert('🎙️ Click the ElevenLabs widget button in the bottom-right corner to hear the demo.');
+          }
+        } else {
+          alert('🎙️ ElevenLabs widget is loading. Please wait a moment and try again.');
         }
       });
 
@@ -776,8 +1202,7 @@
 
       console.log('🎙️ Neev Voice — Enterprise Voice Agent Agency');
       console.log('🆔 Agent ID: agent_5401kvasqwswegyadevq3srt3rjk');
-      console.log('📋 Consultation form with CORS fix');
-      console.log('🔗 Google Sheets URL:', GOOGLE_SHEETS_URL);
+      console.log('📱 Fully responsive — optimized for mobile');
     });
   </script>
 </body>
